@@ -1,0 +1,192 @@
+openapi: 3.1.0
+info:
+  title: Spring Boot ATM API
+  description: API для тестового приложения АТМ
+  version: 1.0.0
+externalDocs:
+  description: Полезная информация
+  url: https://habr.com/ru/post/351890/
+tags:
+  - name: Справочник типов счетов
+    description: CRUD операции над записями в справочнике счетов
+paths:
+  /api/v1/admin/account_types:
+    get:
+      tags:
+        - Справочник типов счетов
+      summary: Получить все записи справочника типов счетов
+      operationId: getAllExistAccountTypes
+      responses:
+        200:
+          description: "Список записей справочника успешно получен"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/AccountTypeResponse'
+        404:
+          description: "В справочнике отсутствуют записи"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+                type: object
+  /api/v1/admin/account_types/create:
+    post:
+      tags:
+        - Справочник типов счетов
+      summary: Добавить новый тип счета в справочник
+      operationId: createNewAccountType
+      requestBody:
+        required: true
+        description: DTO запрос на добавление нового счета
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountTypeRequest'
+              type: object
+      responses:
+        201:
+          description: "Новый тип счета успешно добавлен в справочник"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountTypeResponse'
+                type: object
+        400:
+          description: "Ошибки в запросе"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+  /api/v1/admin/account_types/{accountTypeName}:
+    put:
+      tags:
+        - Справочник типов счетов
+      summary: Изменить существующую запись в справочнике
+      operationId: editExistAccountType
+      parameters:
+        - name: accountTypeName
+          in: query
+          description: Тип счета
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: DTO Тип счета с обновленным названием
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountTypeRequest'
+              type: object
+      responses:
+        201:
+          description: "Тип счета успешно обновлен"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountTypeResponse'
+                type: object
+        404:
+          description: "Такой тип счета не найден"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+    delete:
+      tags:
+        - Справочник типов счетов
+      summary: Удалить существующую запись в справочнике
+      operationId: deleteExistedAccountType
+      parameters:
+        - name: accountTypeName
+          in: query
+          description: Тип счета
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Запись успешно удалена из справочника
+          content:
+            application/json:
+              schema:
+                type: object
+                $ref: '#/components/schemas/DeleteObjectResponse'
+        404:
+          description: "Такой тип счета не найден"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ErrorResponse'
+components:
+  schemas:
+    AccountTypeRequest:
+      type: object
+      description: Запрос на добавление нового счета
+      properties:
+        accountTypeName:
+          description: "Уникальное название типа счета"
+          type: string
+          examples:
+            - DEPOSIT
+    AccountTypeResponse:
+      type: object
+      description: "Тип счета"
+      properties:
+        accountTypeId:
+          description: "Уникальное идентификатор в формате UUID"
+          type: string
+          examples:
+            - c9be5ca2-b8e8-4dcb-8d1b-1df98c9951e9
+        sysCreateTime:
+          description: "Дата заведения счета"
+          type: string
+          examples:
+            - 2024-01-25
+        accountTypeName:
+          description: "Уникальное название типа счета"
+          type: string
+          examples:
+            - DEPOSIT
+    ErrorResponse:
+      type: object
+      description: "Информация об ошибках"
+      properties:
+        errorTimeStamp:
+          type: string
+          description: Время ошибки
+          examples:
+            - 2024-01-25T13:37:00.5884844
+        errorMessage:
+          type: string
+          description: Сообщение об ошибке
+          examples:
+            - Please, enter the right type of account
+    DeleteObjectResponse:
+      type: object
+      description: "DTO ответ на успешное удаление записи"
+      properties:
+        errorTimeStamp:
+          type: string
+          description: Время удаления объекта
+          examples:
+            - 2024-01-25T13:37:00.5884844
+        objectName:
+          type: string
+          description: Названия удаленного объекта
+          examples:
+            - CURRENCY2
+        deletedAnswer:
+          type: string
+          description: Сопроводительное сообщение
+          examples:
+            - deleted succsessfully
