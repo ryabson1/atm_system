@@ -1,192 +1,197 @@
 openapi: 3.1.0
 info:
   title: Spring Boot ATM API
-  description: API для тестового приложения АТМ
+  description: API РґР»СЏ С‚РµСЃС‚РѕРІРѕРіРѕ РїСЂРёР»РѕР¶РµРЅРёСЏ РђРўРњ
   version: 1.0.0
 externalDocs:
-  description: Полезная информация
+  description: РџРѕР»РµР·РЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ
   url: https://habr.com/ru/post/351890/
 tags:
-  - name: Справочник типов счетов
-    description: CRUD операции над записями в справочнике счетов
+  - name: РЎРїСЂР°РІРѕС‡РЅРёРє С‚РёРїРѕРІ СЃС‡РµС‚РѕРІ
+    description: CRUD РѕРїРµСЂР°С†РёРё РЅР°Рґ Р·Р°РїРёСЃСЏРјРё РІ СЃРїСЂР°РІРѕС‡РЅРёРєРµ СЃС‡РµС‚РѕРІ
 paths:
   /api/v1/admin/account_types:
     get:
       tags:
-        - Справочник типов счетов
-      summary: Получить все записи справочника типов счетов
+        - РЎРїСЂР°РІРѕС‡РЅРёРє С‚РёРїРѕРІ СЃС‡РµС‚РѕРІ
+      summary: РџРѕР»СѓС‡РёС‚СЊ РІСЃРµ Р·Р°РїРёСЃРё СЃРїСЂР°РІРѕС‡РЅРёРєР° С‚РёРїРѕРІ СЃС‡РµС‚РѕРІ
       operationId: getAllExistAccountTypes
       responses:
         200:
-          description: "Список записей справочника успешно получен"
-          content:
-            application/json:
-              schema:
+          description: "РЎРїРёСЃРѕРє Р·Р°РїРёСЃРµР№ СЃРїСЂР°РІРѕС‡РЅРёРєР° СѓСЃРїРµС€РЅРѕ РїРѕР»СѓС‡РµРЅ"
+          content: 
+            application/json: 
+              schema: 
                 type: array
-                items:
+                items: 
                   $ref: '#/components/schemas/AccountTypeResponse'
-        404:
-          description: "В справочнике отсутствуют записи"
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ErrorResponse'
-                type: object
+        404: 
+          description: "Р’ СЃРїСЂР°РІРѕС‡РЅРёРєРµ РѕС‚СЃСѓС‚СЃС‚РІСѓСЋС‚ Р·Р°РїРёСЃРё"
+          content: 
+            application/json: 
+              schema: 
+                  $ref: '#/components/schemas/ErrorResponse'
+                  type: object
   /api/v1/admin/account_types/create:
     post:
       tags:
-        - Справочник типов счетов
-      summary: Добавить новый тип счета в справочник
+        - РЎРїСЂР°РІРѕС‡РЅРёРє С‚РёРїРѕРІ СЃС‡РµС‚РѕРІ
+      summary: Р”РѕР±Р°РІРёС‚СЊ РЅРѕРІС‹Р№ С‚РёРї СЃС‡РµС‚Р° РІ СЃРїСЂР°РІРѕС‡РЅРёРє
       operationId: createNewAccountType
       requestBody:
         required: true
-        description: DTO запрос на добавление нового счета
+        description: DTO Р·Р°РїСЂРѕСЃ РЅР° РґРѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ СЃС‡РµС‚Р°
         content:
-          application/json:
+          application/json: 
             schema:
               $ref: '#/components/schemas/AccountTypeRequest'
               type: object
       responses:
         201:
-          description: "Новый тип счета успешно добавлен в справочник"
+          description: "РќРѕРІС‹Р№ С‚РёРї СЃС‡РµС‚Р° СѓСЃРїРµС€РЅРѕ РґРѕР±Р°РІР»РµРЅ РІ СЃРїСЂР°РІРѕС‡РЅРёРє"
           content:
-            application/json:
+            application/json: 
               schema:
                 $ref: '#/components/schemas/AccountTypeResponse'
                 type: object
         400:
-          description: "Ошибки в запросе"
-          content:
-            application/json:
-              schema:
+          description: "РћС€РёР±РєРё РІ Р·Р°РїСЂРѕСЃРµ"
+          content: 
+            application/json: 
+              schema: 
                 type: array
-                items:
+                items: 
                   $ref: '#/components/schemas/ErrorResponse'
   /api/v1/admin/account_types/{accountTypeName}:
     put:
       tags:
-        - Справочник типов счетов
-      summary: Изменить существующую запись в справочнике
+        - РЎРїСЂР°РІРѕС‡РЅРёРє С‚РёРїРѕРІ СЃС‡РµС‚РѕРІ
+      summary: РР·РјРµРЅРёС‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ Р·Р°РїРёСЃСЊ РІ СЃРїСЂР°РІРѕС‡РЅРёРєРµ
       operationId: editExistAccountType
-      parameters:
+      parameters: 
         - name: accountTypeName
           in: query
-          description: Тип счета
+          description: РўРёРї СЃС‡РµС‚Р°
           required: true
           schema:
             type: string
       requestBody:
         required: true
-        description: DTO Тип счета с обновленным названием
-        content:
-          application/json:
+        description: DTO РўРёРї СЃС‡РµС‚Р° СЃ РѕР±РЅРѕРІР»РµРЅРЅС‹Рј РЅР°Р·РІР°РЅРёРµРј
+        content: 
+          application/json: 
             schema:
               $ref: '#/components/schemas/AccountTypeRequest'
               type: object
       responses:
         201:
-          description: "Тип счета успешно обновлен"
+          description: "РўРёРї СЃС‡РµС‚Р° СѓСЃРїРµС€РЅРѕ РѕР±РЅРѕРІР»РµРЅ"
           content:
-            application/json:
+            application/json: 
               schema:
                 $ref: '#/components/schemas/AccountTypeResponse'
                 type: object
         404:
-          description: "Такой тип счета не найден"
-          content:
-            application/json:
-              schema:
+          description: "РўР°РєРѕР№ С‚РёРї СЃС‡РµС‚Р° РЅРµ РЅР°Р№РґРµРЅ"
+          content: 
+            application/json: 
+              schema: 
                 type: array
-                items:
+                items: 
                   $ref: '#/components/schemas/ErrorResponse'
-    delete:
+    delete: 
       tags:
-        - Справочник типов счетов
-      summary: Удалить существующую запись в справочнике
+        - РЎРїСЂР°РІРѕС‡РЅРёРє С‚РёРїРѕРІ СЃС‡РµС‚РѕРІ
+      summary: РЈРґР°Р»РёС‚СЊ СЃСѓС‰РµСЃС‚РІСѓСЋС‰СѓСЋ Р·Р°РїРёСЃСЊ РІ СЃРїСЂР°РІРѕС‡РЅРёРєРµ
       operationId: deleteExistedAccountType
-      parameters:
+      parameters: 
         - name: accountTypeName
           in: query
-          description: Тип счета
+          description: РўРёРї СЃС‡РµС‚Р°
           required: true
           schema:
             type: string
       responses:
         200:
-          description: Запись успешно удалена из справочника
-          content:
-            application/json:
-              schema:
+          description: Р—Р°РїРёСЃСЊ СѓСЃРїРµС€РЅРѕ СѓРґР°Р»РµРЅР° РёР· СЃРїСЂР°РІРѕС‡РЅРёРєР°
+          content: 
+            application/json: 
+              schema: 
                 type: object
                 $ref: '#/components/schemas/DeleteObjectResponse'
         404:
-          description: "Такой тип счета не найден"
-          content:
-            application/json:
-              schema:
+          description: "РўР°РєРѕР№ С‚РёРї СЃС‡РµС‚Р° РЅРµ РЅР°Р№РґРµРЅ"
+          content: 
+            application/json: 
+              schema: 
                 type: array
-                items:
+                items: 
                   $ref: '#/components/schemas/ErrorResponse'
 components:
-  schemas:
+  schemas: 
     AccountTypeRequest:
       type: object
-      description: Запрос на добавление нового счета
+      description: Р—Р°РїСЂРѕСЃ РЅР° РґРѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ СЃС‡РµС‚Р°
       properties:
         accountTypeName:
-          description: "Уникальное название типа счета"
+          description: "РЈРЅРёРєР°Р»СЊРЅРѕРµ РЅР°Р·РІР°РЅРёРµ С‚РёРїР° СЃС‡РµС‚Р°"
           type: string
-          examples:
+          examples: 
             - DEPOSIT
     AccountTypeResponse:
       type: object
-      description: "Тип счета"
+      description: "РўРёРї СЃС‡РµС‚Р°"
       properties:
         accountTypeId:
-          description: "Уникальное идентификатор в формате UUID"
+          description: "РЈРЅРёРєР°Р»СЊРЅРѕРµ РёРґРµРЅС‚РёС„РёРєР°С‚РѕСЂ РІ С„РѕСЂРјР°С‚Рµ UUID"
           type: string
-          examples:
+          examples: 
             - c9be5ca2-b8e8-4dcb-8d1b-1df98c9951e9
         sysCreateTime:
-          description: "Дата заведения счета"
+          description: "Р”Р°С‚Р° Р·Р°РІРµРґРµРЅРёСЏ СЃС‡РµС‚Р°"
           type: string
-          examples:
+          examples: 
             - 2024-01-25
         accountTypeName:
-          description: "Уникальное название типа счета"
+          description: "РЈРЅРёРєР°Р»СЊРЅРѕРµ РЅР°Р·РІР°РЅРёРµ С‚РёРїР° СЃС‡РµС‚Р°"
           type: string
-          examples:
+          examples: 
             - DEPOSIT
     ErrorResponse:
       type: object
-      description: "Информация об ошибках"
-      properties:
+      description: "РРЅС„РѕСЂРјР°С†РёСЏ РѕР± РѕС€РёР±РєР°С…"
+      properties: 
         errorTimeStamp:
           type: string
-          description: Время ошибки
-          examples:
+          description: Р’СЂРµРјСЏ РѕС€РёР±РєРё
+          examples: 
             - 2024-01-25T13:37:00.5884844
         errorMessage:
           type: string
-          description: Сообщение об ошибке
-          examples:
+          description: РЎРѕРѕР±С‰РµРЅРёРµ РѕР± РѕС€РёР±РєРµ
+          examples: 
             - Please, enter the right type of account
     DeleteObjectResponse:
       type: object
-      description: "DTO ответ на успешное удаление записи"
+      description: "DTO РѕС‚РІРµС‚ РЅР° СѓСЃРїРµС€РЅРѕРµ СѓРґР°Р»РµРЅРёРµ Р·Р°РїРёСЃРё"
       properties:
         errorTimeStamp:
           type: string
-          description: Время удаления объекта
-          examples:
+          description: Р’СЂРµРјСЏ СѓРґР°Р»РµРЅРёСЏ РѕР±СЉРµРєС‚Р°
+          examples: 
             - 2024-01-25T13:37:00.5884844
         objectName:
           type: string
-          description: Названия удаленного объекта
-          examples:
+          description: РќР°Р·РІР°РЅРёСЏ СѓРґР°Р»РµРЅРЅРѕРіРѕ РѕР±СЉРµРєС‚Р°
+          examples: 
             - CURRENCY2
         deletedAnswer:
           type: string
-          description: Сопроводительное сообщение
-          examples:
+          description: РЎРѕРїСЂРѕРІРѕРґРёС‚РµР»СЊРЅРѕРµ СЃРѕРѕР±С‰РµРЅРёРµ
+          examples: 
             - deleted succsessfully
+
+
+
+
+
