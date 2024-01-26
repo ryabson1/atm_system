@@ -1,0 +1,34 @@
+--createNewAccountType()--
+@startuml
+Title Create new account type
+!theme materia
+skinparam sequenceMessageAlign center
+participant FE
+box "ATM Application" #LightBlue
+participant "AccountTypeController" as Controller
+participant "AccountTypeService" as Service
+participant "AccountTypeRepository" as Repository
+end box
+participant DB
+FE -> Controller: HTTP POST http://ryabson.dev/api/v1/admin/account_types
+activate FE
+activate Controller
+Controller -> Service: createNewAccountType(DTO AccountTypeRequest)
+activate Service
+Service -> Repository: AccountTypeRepository.save()
+activate Repository
+Repository -> DB: INSERT INTO TABLE account_type
+Repository --> Service:
+deactivate Repository
+alt Service Validation
+  Service --> Controller: return DTO AccountTypeResponse
+  note left: SUCCESS
+else 
+  Service --> Controller: return DTO ErrorResponse
+  note left: ERROR
+end
+deactivate Service
+Controller --> FE: return DTO AccountTypeResponse
+deactivate Controller
+deactivate FE
+@enduml
