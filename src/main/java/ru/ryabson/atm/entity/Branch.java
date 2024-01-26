@@ -46,7 +46,7 @@ public class Branch {
 
     @PrePersist
     public void prePersist() {
-        if (branchExtId == 0) {
+        if (branchExtId == null) {
             branchExtId = generateUniqueNumber();
         }
     }
