@@ -12,6 +12,4 @@ public interface AccountTypeRepository extends JpaRepository<AccountType, UUID> 
     @Transactional
     void deleteAccountTypeByAccountTypeName(String accountTypeName);
 
-
-
 }
