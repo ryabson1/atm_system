@@ -49,6 +49,10 @@ public class Account {
     @JoinColumn(name = "branch_id")
     private Branch branch;
 
+    @ManyToOne
+    @JoinColumn(name = "currency_type_id")
+    private CurrencyCode currencyCode;
+
     public Account() {
         this.accountBalance = 0.0;
         this.sysCreateTime = LocalDate.now();
